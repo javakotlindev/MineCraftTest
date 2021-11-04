@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MineCraft Test</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loading_dot">Loading...</string>
+    <string name="mods">Mods</string>
+    <string name="favourites">Favorites</string>
+    <string name="mods_w_dots">•Mods•</string>
+</resources>
