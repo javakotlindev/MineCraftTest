@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.google.gson.Gson
+import com.tellit.minecrafttest.model.favourites.FavouritesModel
 import com.tellit.minecrafttest.model.mods.ModsData
-import com.tellit.minecrafttest.repository.favourites.FavouritesRepository
-import com.tellit.minecrafttest.repository.mods.ModsRepository
+import com.tellit.minecrafttest.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONException
@@ -17,25 +17,39 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     @ApplicationContext val context: Context,
-    var favouritesRepository: FavouritesRepository,
-    var modsRepository: ModsRepository
+    var mainRepository: MainRepository
 ) : ViewModel() {
 
-    val getFavorites = favouritesRepository.getAllFavourites().asLiveData()
+    val getFavorites = mainRepository.getAllFavourites().asLiveData()
 
-
-    fun getDataFromJSON(): ModsData {
-        lateinit var list: ModsData
-
-        try {
-            val gson = Gson()
-            val json = getJsonFromAssets(context, "content.json")
-            list = gson.fromJson(json, ModsData::class.java)
-
-        } catch (e: JSONException) {
-            e.printStackTrace()
+    fun addJsonToDB() {
+        for (key in getDataFromJSON(this).mkbgj_list5) {
+            if (!mainRepository.getAllFavourites().equals(null)&&!mainRepository.getAllFavourites().equals("")){
+            mainRepository.addFavourites(
+                FavouritesModel(
+                    0,
+                    key.value.mkbgj_pw5,
+                    key.value.mkbgjt3,
+                    key.value.mkbgj_ieq,
+                    key.value.mkbgji1,
+                    key.value.mkbgjd4,
+                    key.value.mkbgjf2
+                )
+            )
+            }else{
+                mainRepository.addFavourites(
+                    FavouritesModel(
+                        0,
+                        key.value.mkbgj_pw5,
+                        key.value.mkbgjt3,
+                        key.value.mkbgj_ieq,
+                        key.value.mkbgji1,
+                        key.value.mkbgjd4,
+                        key.value.mkbgjf2
+                    )
+                )
+            }
         }
-        return list
     }
 
     private fun getJsonFromAssets(context: Context, fileName: String?): String? {
@@ -49,6 +63,22 @@ class MainViewModel @Inject constructor(
         } catch (e: IOException) {
             e.printStackTrace()
             return null
+        }
+    }
+
+    companion object {
+        fun getDataFromJSON(mainViewModel: MainViewModel): ModsData {
+            lateinit var list: ModsData
+
+            try {
+                val gson = Gson()
+                val json = mainViewModel.getJsonFromAssets(mainViewModel.context, "content.json")
+                list = gson.fromJson(json, ModsData::class.java)
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+            return list
         }
     }
 

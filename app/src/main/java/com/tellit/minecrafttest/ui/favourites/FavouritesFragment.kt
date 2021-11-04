@@ -1,16 +1,16 @@
 package com.tellit.minecrafttest.ui.favourites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenStarted
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellit.minecrafttest.R
 import com.tellit.minecrafttest.databinding.FragmentFavouritesBinding
+import com.tellit.minecrafttest.model.favourites.FavouritesModel
 import com.tellit.minecrafttest.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +19,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     private lateinit var adapter: FavouritesAdapter
     private lateinit var binding: FragmentFavouritesBinding
     private val viewModel: MainViewModel by viewModels()
+    lateinit var data: ArrayList<FavouritesModel>
 
 
     override fun onCreateView(
@@ -32,20 +33,31 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-
+            data = ArrayList()
             adapter = FavouritesAdapter()
 
-            viewModel.getFavorites.observe(viewLifecycleOwner) {
-                adapter.setDataAdapter(it)
-            }
+            setData()
             adapter.setOnItemClickListener {
-                viewModel.favouritesRepository.deleteFavoriteRecipe(it)
+                viewModel.mainRepository.update(false, it.id)
+                data.clear()
+                adapter.notifyDataSetChanged()
             }
             modsRecyclerList.adapter = adapter
             modsRecyclerList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
 
+    }
+
+    private fun setData() {
+        viewModel.getFavorites.observe(viewLifecycleOwner) {
+            for (i in it) {
+                if (i.status) {
+                    data.add(i)
+                }
+            }
+            adapter.setDataAdapter(data)
+        }
     }
 
 }

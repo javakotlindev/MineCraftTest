@@ -14,7 +14,7 @@ class FavouritesAdapter :
         listener = f
     }
 
-    var data = ArrayList<FavouritesModel>()
+    var data = mutableListOf<FavouritesModel>()
 
 
     fun setDataAdapter(data: List<FavouritesModel>) {

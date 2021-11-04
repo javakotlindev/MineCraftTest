@@ -1,59 +1,66 @@
 package com.tellit.minecrafttest.ui.mods
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tellit.minecrafttest.R
 import com.tellit.minecrafttest.databinding.ItemModsBinding
 import com.tellit.minecrafttest.model.favourites.FavouritesModel
-import com.tellit.minecrafttest.model.mods.ModsInfoData
 
 
 class ModsAdapter :
     RecyclerView.Adapter<ModsAdapter.ModsViewHolder>() {
-    private var listener: ((ModsInfoData, Int) -> Unit)? = null
-    fun setOnItemClickListener(f: (ModsInfoData, Int) -> Unit) {
+    private var listener: ((Int, Boolean) -> Unit)? = null
+    fun setOnItemClickListener(f: (Int, Boolean) -> Unit) {
         listener = f
     }
 
-    private var data = ArrayList<ModsInfoData>()
-    lateinit var favouritesModel: List<FavouritesModel>
+    private var dataList = ArrayList<FavouritesModel>()
 
 
-    fun setDataAdapter(data: ArrayList<ModsInfoData>, favouritesModel: List<FavouritesModel>) {
-        this.data.clear()
-        this.data.addAll(data)
+    fun setDataAdapter(data: List<FavouritesModel>) {
+        dataList.clear()
+        dataList.addAll(data)
         this.notifyDataSetChanged()
-        this.favouritesModel = favouritesModel
     }
 
 
     inner class ModsViewHolder(private val binding: ItemModsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(data: ModsInfoData) {
+        fun bindData(data: FavouritesModel) {
             binding.apply {
-                Log.i("uuuuuuuuuuuuu", "bindData: $favouritesModel")
+                if (data.status) {
+                    checkImg.setImageResource(R.drawable.icon_favorites)
+                } else {
+                    checkImg.setImageResource(R.drawable.icon_unfavorites)
+                }
 
                 titleTxt.text = data.mkbgjd4
                 descriptionTxt.text = data.mkbgji1
                 checkImg.setOnClickListener {
-                    checkImg.setImageResource(R.drawable.icon_favorites)
-                    listener?.invoke(data, 2)
+                    if (data.status) {
+                        dataList.clear()
+                        listener?.invoke(data.id, false)
+                        checkImg.setImageResource(R.drawable.icon_unfavorites)
+                    } else {
+                        dataList.clear()
+                        listener?.invoke(data.id, true)
+                        checkImg.setImageResource(R.drawable.icon_favorites)
+                    }
+                }
             }
         }
     }
-}
 
-override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ModsViewHolder(
-    ItemModsBinding.inflate(
-        LayoutInflater.from(parent.context), parent, false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ModsViewHolder(
+        ItemModsBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
     )
-)
 
-override fun getItemCount() = data.size
+    override fun getItemCount() = dataList.size
 
-override fun onBindViewHolder(holder: ModsViewHolder, position: Int) =
-    holder.bindData(data[position])
+    override fun onBindViewHolder(holder: ModsViewHolder, position: Int) =
+        holder.bindData(dataList[position])
 
 }
