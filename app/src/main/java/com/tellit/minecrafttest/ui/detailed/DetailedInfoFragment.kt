@@ -7,6 +7,7 @@ import android.content.res.AssetManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.CountDownTimer
+import android.os.Environment
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,6 +15,7 @@ import com.tellit.minecrafttest.R
 import com.tellit.minecrafttest.databinding.FragmentDetailedInfoBinding
 import com.tellit.minecrafttest.ui.BaseMainFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.FileOutputStream
 import java.io.IOException
 
 
@@ -22,6 +24,7 @@ class DetailedInfoFragment :
     BaseMainFragment<FragmentDetailedInfoBinding>(FragmentDetailedInfoBinding::inflate) {
     lateinit var countDownTimer: CountDownTimer
     private var isClicked = false
+    private var location = ""
 
     override fun onViewCreate() {
         binding.apply {
@@ -40,7 +43,8 @@ class DetailedInfoFragment :
                 if (isClicked) {
                     isClicked = false
 
-                    val assetManager: AssetManager = requireContext().assets
+                    setFilesLocation()
+                    copyDataBase()
 
                     binding.downloadBtn.text = getString(R.string.download)
                     try {
@@ -50,15 +54,7 @@ class DetailedInfoFragment :
                                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                             intent.type = "file/*"
                             intent.data = Uri.parse(
-                                "minecraft://?import=${
-                                    assetManager.open(
-                                        "files/mods/${
-                                            requireArguments().getString(
-                                                "fileName"
-                                            )
-                                        }"
-                                    )
-                                }"
+                                "minecraft://?import=${location}"
                             )
                             startActivity(intent)
                         }
@@ -102,7 +98,7 @@ class DetailedInfoFragment :
     }
 
     private fun startTimer() {
-        countDownTimer = object : CountDownTimer(3000, 1000) {
+        countDownTimer = object : CountDownTimer(2000, 1000) {
             override fun onFinish() {
                 binding.downloadBtn.text = getString(R.string.install)
                 binding.downloadBtn.isEnabled = true
@@ -133,5 +129,30 @@ class DetailedInfoFragment :
         )
     }
 
-}
+    @Throws(IOException::class)
+    private fun copyDataBase() {
+
+        val myOutput = FileOutputStream(location)
+        val myInput =
+            requireContext().assets.open("files/mods/${requireArguments().getString("fileName")}")
+
+        val buffer = ByteArray(1024)
+        var length: Int = myInput.read(buffer)
+        while ((length) > 0) {
+            myOutput.write(buffer, 0, length)
+            length = myInput.read(buffer)
+        }
+        myInput.close()
+        myOutput.flush()
+        myOutput.close()
+    }
+
+    private fun setFilesLocation() {
+        location =
+            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)}/${
+                requireArguments().getString("fileName")
+            }"
+    }
+
+    }
 
