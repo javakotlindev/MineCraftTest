@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
     @ApplicationContext val context: Context,
     var mainRepository: MainRepository
 ) : ViewModel() {
-
+    var favouritesModel : FavouritesModel? = null
     val getFavorites = mainRepository.getAllFavourites().asLiveData()
 
     fun isRowExist(id : String) : LiveData<Boolean>{

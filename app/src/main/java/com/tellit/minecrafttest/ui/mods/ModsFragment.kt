@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellit.minecrafttest.R
 import com.tellit.minecrafttest.databinding.FragmentModsBinding
@@ -52,6 +54,20 @@ class ModsFragment : Fragment(R.layout.fragment_mods) {
     private fun adapterOnclick() {
         adapter.setOnItemClickListener { id, status ->
             viewModel.mainRepository.update(status, id)
+        }
+        adapter.rootOnClickListener {
+            viewModel.favouritesModel = it
+            val bundle = bundleOf(
+                "title" to it.mkbgjd4,
+                "description" to it.mkbgji1,
+                "imageUrl" to it.mkbgjf2,
+                "fileName" to it.mkbgjt3,
+                "5mkbgj_ieq" to it.mkbgjieq,
+                "5mkbgj_pw" to it.mkbgjpw,
+                "status" to it.status
+            )
+            parentFragment?.findNavController()
+                ?.navigate(R.id.action_viewPagerFragment_to_detailedInfoFragment, bundle)
         }
     }
 

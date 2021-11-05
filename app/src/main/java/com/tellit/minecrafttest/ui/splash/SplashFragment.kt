@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashFragment : BaseMainFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
     lateinit var countDownTimer: CountDownTimer
-    private val viewModel: MainViewModel by viewModels()
 
 
     override fun onViewCreate() {

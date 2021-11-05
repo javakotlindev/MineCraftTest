@@ -9,14 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tellit.minecrafttest.R
 import com.tellit.minecrafttest.databinding.ItemFavouritesBinding
 import com.tellit.minecrafttest.model.favourites.FavouritesModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
 
-class FavouritesAdapter(val context : Context) :
+class FavouritesAdapter(val context: Context) :
     RecyclerView.Adapter<FavouritesAdapter.FavouritesViewHolder>() {
     private var listener: ((FavouritesModel) -> Unit)? = null
     fun setOnItemClickListener(f: (FavouritesModel) -> Unit) {
         listener = f
+    }
+
+
+    private var rootOnClick: ((FavouritesModel) -> Unit)? = null
+    fun rootOnClickListener(f: (FavouritesModel) -> Unit) {
+        rootOnClick = f
     }
 
     var data = mutableListOf<FavouritesModel>()
@@ -47,6 +52,9 @@ class FavouritesAdapter(val context : Context) :
                 checkImg.setOnClickListener {
                     listener?.invoke(data)
                     checkImg.setImageResource(R.drawable.icon_favorites)
+                }
+                root.setOnClickListener {
+                    rootOnClick?.invoke(data)
                 }
             }
         }

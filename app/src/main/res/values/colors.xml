@@ -8,8 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="whiteOpacity">#66FFFFFF</color>
+    <color name="brightGreen">#C2FFAC</color>
     <color name="darkGreen">#1E4210</color>
     <color name="darkUnselectGreen">#B31E4210</color>
+    <color name="darkestGreen">#14260E</color>
     <color name="lightGreen">#4AC81C</color>
     <color name="darkRed">#651B1C</color>
 </resources>

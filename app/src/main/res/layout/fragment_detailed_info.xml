@@ -1,10 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.detailed.DetailedInfoFragment">
 
+    <FrameLayout
+        android:layout_width="318dp"
+        android:layout_height="221dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="@dimen/margin_padding_24"
+        android:background="@drawable/item_info_bg"
+        android:padding="2dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/mainImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image1"
+            app:shapeAppearanceOverlay="@style/AllCornersShape" />
 
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/checkImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/margin_padding_12"
+            android:src="@drawable/icon_unfavorites" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back" />
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_padding_24"
+        android:fontFamily="@font/jost_bold"
+        android:gravity="start"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_24" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_24"
+        android:layout_marginEnd="@dimen/margin_padding_24"
+        android:fontFamily="@font/jost_medium"
+        android:gravity="start"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/downloadBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_48"
+        android:layout_marginTop="@dimen/margin_padding_36"
+        android:layout_marginEnd="@dimen/margin_padding_48"
+        android:background="@drawable/item_button_green"
+        android:fontFamily="@font/jost_bold"
+        android:text="@string/download"
+        android:textAllCaps="false"
+        android:textColor="@color/purple_700"
+        android:textSize="@dimen/text_size_24" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

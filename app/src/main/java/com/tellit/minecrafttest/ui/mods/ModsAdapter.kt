@@ -20,6 +20,11 @@ class ModsAdapter(@ApplicationContext val context: Context) :
         listener = f
     }
 
+    private var rootOnClick: ((FavouritesModel) -> Unit)? = null
+    fun rootOnClickListener(f: (FavouritesModel) -> Unit) {
+        rootOnClick = f
+    }
+
     private var dataList = ArrayList<FavouritesModel>()
     val assetManager: AssetManager = context.assets
 
@@ -49,6 +54,7 @@ class ModsAdapter(@ApplicationContext val context: Context) :
                     }
                 } catch (ex: IOException) {
                 }
+
                 titleTxt.text = data.mkbgjd4
                 descriptionTxt.text = data.mkbgji1
                 checkImg.setOnClickListener {
@@ -61,6 +67,9 @@ class ModsAdapter(@ApplicationContext val context: Context) :
                         listener?.invoke(data.id, true)
                         checkImg.setImageResource(R.drawable.icon_favorites)
                     }
+                }
+                root.setOnClickListener {
+                    rootOnClick?.invoke(data)
                 }
             }
         }

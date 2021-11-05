@@ -34,4 +34,13 @@
         <item name="cornerSizeTopRight">@dimen/margin_padding_8</item>
         <item name="cornerSizeTopLeft">@dimen/margin_padding_8</item>
     </style>
+
+    <style name="AllCornersShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+        <item name="cornerSizeTopRight">@dimen/margin_padding_8</item>
+        <item name="cornerSizeBottomLeft">@dimen/margin_padding_8</item>
+        <item name="cornerSizeBottomRight">@dimen/margin_padding_8</item>
+        <item name="cornerSizeTopLeft">@dimen/margin_padding_8</item>
+    </style>
 </resources>
