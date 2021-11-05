@@ -40,9 +40,9 @@
                 android:fontFamily="@font/jost_extra_bold"
                 android:text="Mine-Furniture Addon (v5)"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18"
-                app:outlineColor="@color/black"
-                app:outlineWidth="0.7"
+                android:textSize="@dimen/text_size_20"
+                app:strokeColor="@color/black"
+                app:strokeWidth="0.7dp"
                 app:textAllCaps="false" />
 
             <androidx.appcompat.widget.AppCompatImageView

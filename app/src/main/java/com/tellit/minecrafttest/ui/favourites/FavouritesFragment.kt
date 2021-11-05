@@ -33,7 +33,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             data = ArrayList()
-            adapter = FavouritesAdapter()
+            adapter = FavouritesAdapter(requireContext())
 
             setData()
             adapter.setOnItemClickListener {

@@ -1,105 +1,76 @@
 package com.tellit.minecrafttest.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Paint.Join
 import android.util.AttributeSet
-import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.widget.AutoSizeableTextView
 import com.tellit.minecrafttest.R
 
 
-@SuppressLint("RestrictedApi")
-class OutlineTextView : AppCompatTextView, AutoSizeableTextView {
-
-    private val defaultStrokeWidth = 0F
-    private var isDrawing: Boolean = false
-
-    private var strokeColor: Int = 0
-    private var strokeWidth: Float = 0.toFloat()
+class OutlineTextView : AppCompatTextView {
+    private var strokeWidth = 0f
+    private var strokeColor: Int? = null
+    private var strokeJoin: Join? = null
+    private var strokeMiter = 0f
 
     constructor(context: Context?) : super(context!!) {
-        initResources(context, null)
-
+        init(null)
     }
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs) {
-        initResources(context, attrs)
-
+        init(attrs)
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(
         context!!,
         attrs,
-        defStyleAttr
+        defStyle
     ) {
-        initResources(context, attrs)
-
+        init(attrs)
     }
 
-    private fun initResources(context: Context?, attrs: AttributeSet?) {
+    fun init(attrs: AttributeSet?) {
         if (attrs != null) {
-            val a = context?.obtainStyledAttributes(attrs, R.styleable.outlineAttrs)
-            strokeColor = a!!.getColor(
-                R.styleable.outlineAttrs_outlineColor,
-                currentTextColor
-            )
-            strokeWidth = a.getFloat(
-                R.styleable.outlineAttrs_outlineWidth,
-                defaultStrokeWidth
-            )
-
-            a.recycle()
-        } else {
-            strokeColor = currentTextColor
-            strokeWidth = defaultStrokeWidth
+            val a = context.obtainStyledAttributes(attrs, R.styleable.CoustomTextView)
+            if (a.hasValue(R.styleable.CoustomTextView_strokeColor)) {
+                val strokeWidth =
+                    a.getDimensionPixelSize(R.styleable.CoustomTextView_strokeWidth, 1).toFloat()
+                val strokeColor = a.getColor(R.styleable.CoustomTextView_strokeColor, -0x1000000)
+                val strokeMiter =
+                    a.getDimensionPixelSize(R.styleable.CoustomTextView_strokeMiter, 10).toFloat()
+                var strokeJoin: Join? = null
+                when (a.getInt(R.styleable.CoustomTextView_strokeJoinStyle, 0)) {
+                    0 -> strokeJoin = Join.MITER
+                    1 -> strokeJoin = Join.BEVEL
+                    2 -> strokeJoin = Join.ROUND
+                }
+                setStroke(strokeWidth, strokeColor, strokeJoin, strokeMiter)
+            }
         }
-        setStrokeWidth(strokeWidth)
     }
 
-    fun setStrokeColor(color: Int) {
+    fun setStroke(width: Float, color: Int, join: Join?, miter: Float) {
+        strokeWidth = width
         strokeColor = color
+        strokeJoin = join
+        strokeMiter = miter
     }
 
-    /**
-     *  give value in sp
-     */
-    fun setStrokeWidth(width: Float) {
-        strokeWidth = width.toPx(context)
-    }
-
-    fun setStrokeWidth(unit: Int, width: Float) {
-        strokeWidth = TypedValue.applyDimension(
-            unit, width, context.resources.displayMetrics
-        )
-    }
-
-    override fun invalidate() {
-        if (isDrawing) return
-        super.invalidate()
-    }
-
-
-    override fun onDraw(canvas: Canvas) {
-        if (strokeWidth > 0) {
-            isDrawing = true
-            val p = paint
-            p.style = Paint.Style.FILL
-
+    public override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        val restoreColor = this.currentTextColor
+        if (strokeColor != null) {
+            val paint = this.paint
+            paint.style = Paint.Style.STROKE
+            paint.strokeJoin = strokeJoin
+            paint.strokeMiter = strokeMiter
+            this.setTextColor(strokeColor!!)
+            paint.strokeWidth = strokeWidth
             super.onDraw(canvas)
-
-            val currentTextColor = currentTextColor
-            p.style = Paint.Style.STROKE
-            p.strokeWidth = strokeWidth
-            setTextColor(strokeColor)
-            super.onDraw(canvas)
-            setTextColor(currentTextColor)
-            isDrawing = false
-        } else {
-            super.onDraw(canvas)
+            paint.style = Paint.Style.FILL
+            this.setTextColor(restoreColor)
         }
     }
-
 }

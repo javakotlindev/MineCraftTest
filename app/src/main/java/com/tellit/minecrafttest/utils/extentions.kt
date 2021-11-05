@@ -1,10 +1,15 @@
 package com.tellit.minecrafttest.utils
 
 import android.content.Context
+import android.content.res.AssetManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.fragment.app.FragmentActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.IOException
 
 
 fun FragmentActivity.statusBarColor(

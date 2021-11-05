@@ -1,14 +1,19 @@
 package com.tellit.minecrafttest.ui.mods
 
+import android.content.Context
+import android.content.res.AssetManager
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tellit.minecrafttest.R
 import com.tellit.minecrafttest.databinding.ItemModsBinding
 import com.tellit.minecrafttest.model.favourites.FavouritesModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.IOException
 
 
-class ModsAdapter :
+class ModsAdapter(@ApplicationContext val context: Context) :
     RecyclerView.Adapter<ModsAdapter.ModsViewHolder>() {
     private var listener: ((String, Boolean) -> Unit)? = null
     fun setOnItemClickListener(f: (String, Boolean) -> Unit) {
@@ -16,6 +21,7 @@ class ModsAdapter :
     }
 
     private var dataList = ArrayList<FavouritesModel>()
+    val assetManager: AssetManager = context.assets
 
 
     fun setDataAdapter(data: List<FavouritesModel>) {
@@ -35,6 +41,14 @@ class ModsAdapter :
                     checkImg.setImageResource(R.drawable.icon_unfavorites)
                 }
 
+
+                try {
+                    assetManager.open("files/mods/${data.mkbgjf2}").use { inputStream ->
+                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                        mainImage.setImageBitmap(bitmap)
+                    }
+                } catch (ex: IOException) {
+                }
                 titleTxt.text = data.mkbgjd4
                 descriptionTxt.text = data.mkbgji1
                 checkImg.setOnClickListener {

@@ -30,7 +30,7 @@ class ModsFragment : Fragment(R.layout.fragment_mods) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            adapter = ModsAdapter()
+            adapter = ModsAdapter(requireContext())
 
             initRecyclerView()
 

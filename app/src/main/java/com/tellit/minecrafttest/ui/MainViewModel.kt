@@ -14,6 +14,14 @@ import org.json.JSONException
 import java.io.IOException
 import java.io.InputStream
 import javax.inject.Inject
+import android.graphics.BitmapFactory
+
+import android.graphics.Bitmap
+
+import android.content.res.AssetManager
+
+
+
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -56,6 +64,7 @@ class MainViewModel @Inject constructor(
             return list
         }
     }
+
 
 
 }
