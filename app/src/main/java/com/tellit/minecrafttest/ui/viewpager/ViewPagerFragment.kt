@@ -1,5 +1,7 @@
 package com.tellit.minecrafttest.ui.viewpager
 
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -39,6 +41,9 @@ class ViewPagerFragment :
 
         }.attach()
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().finish()
+        }
         binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab!!.text = "•${tab.text}•"
@@ -66,6 +71,7 @@ class ViewPagerFragment :
         orderFragments.add(FavouritesFragment())
 
     }
+
 
 
 }

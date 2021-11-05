@@ -1,7 +1,9 @@
 package com.tellit.minecrafttest.ui.splash
 
+import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import com.tellit.minecrafttest.R
 import com.tellit.minecrafttest.databinding.FragmentSplashBinding
 import com.tellit.minecrafttest.model.favourites.FavouritesModel
