@@ -2,7 +2,7 @@ package com.tellit.minecrafttest.di
 
 import android.app.Application
 import androidx.room.Room
-import com.tellit.minecrafttest.room.AppDatabase
+import com.tellit.minecrafttest.data.AppDatabase
 import com.tellit.minecrafttest.utils.Constants
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.tellit.minecrafttest.room
+package com.tellit.minecrafttest.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

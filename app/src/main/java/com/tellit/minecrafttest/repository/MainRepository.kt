@@ -1,7 +1,7 @@
 package com.tellit.minecrafttest.repository
 
+import com.tellit.minecrafttest.data.FavouritesDao
 import com.tellit.minecrafttest.model.favourites.FavouritesModel
-import com.tellit.minecrafttest.room.FavouritesDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,9 +22,13 @@ class MainRepository @Inject constructor(
         return favouritesDao.getAllFavourites()
     }
 
-    fun update(status: Boolean, id: Int) {
+    fun update(status: Boolean, id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             favouritesDao.update(status, id)
         }
+    }
+
+    fun isRowExist(id: String): Flow<Boolean> {
+        return favouritesDao.isRowIsExist(id)
     }
 }

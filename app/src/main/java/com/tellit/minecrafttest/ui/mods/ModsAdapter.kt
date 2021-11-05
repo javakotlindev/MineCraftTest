@@ -10,8 +10,8 @@ import com.tellit.minecrafttest.model.favourites.FavouritesModel
 
 class ModsAdapter :
     RecyclerView.Adapter<ModsAdapter.ModsViewHolder>() {
-    private var listener: ((Int, Boolean) -> Unit)? = null
-    fun setOnItemClickListener(f: (Int, Boolean) -> Unit) {
+    private var listener: ((String, Boolean) -> Unit)? = null
+    fun setOnItemClickListener(f: (String, Boolean) -> Unit) {
         listener = f
     }
 

@@ -1,6 +1,7 @@
 package com.tellit.minecrafttest.ui
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.google.gson.Gson
@@ -22,34 +23,8 @@ class MainViewModel @Inject constructor(
 
     val getFavorites = mainRepository.getAllFavourites().asLiveData()
 
-    fun addJsonToDB() {
-        for (key in getDataFromJSON(this).mkbgj_list5) {
-            if (!mainRepository.getAllFavourites().equals(null)&&!mainRepository.getAllFavourites().equals("")){
-            mainRepository.addFavourites(
-                FavouritesModel(
-                    0,
-                    key.value.mkbgj_pw5,
-                    key.value.mkbgjt3,
-                    key.value.mkbgj_ieq,
-                    key.value.mkbgji1,
-                    key.value.mkbgjd4,
-                    key.value.mkbgjf2
-                )
-            )
-            }else{
-                mainRepository.addFavourites(
-                    FavouritesModel(
-                        0,
-                        key.value.mkbgj_pw5,
-                        key.value.mkbgjt3,
-                        key.value.mkbgj_ieq,
-                        key.value.mkbgji1,
-                        key.value.mkbgjd4,
-                        key.value.mkbgjf2
-                    )
-                )
-            }
-        }
+    fun isRowExist(id : String) : LiveData<Boolean>{
+        return  mainRepository.isRowExist(id).asLiveData()
     }
 
     private fun getJsonFromAssets(context: Context, fileName: String?): String? {

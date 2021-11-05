@@ -1,13 +1,8 @@
-package com.tellit.minecrafttest.room
+package com.tellit.minecrafttest.data
 
 import androidx.room.*
 import com.tellit.minecrafttest.model.favourites.FavouritesModel
 import kotlinx.coroutines.flow.Flow
-import androidx.room.FtsOptions.Order
-
-import androidx.room.Update
-
-
 
 
 /**
@@ -23,8 +18,11 @@ interface FavouritesDao {
     fun getAllFavourites(): Flow<List<FavouritesModel>>
 
     @Query("UPDATE favourites_table SET status=:status WHERE id = :id")
-    fun update(status: Boolean, id: Int)
+    fun update(status: Boolean, id: String)
 
     @Delete
     fun deleteFavoriteRecipe(favoritesModel: FavouritesModel)
+
+    @Query("SELECT EXISTS(SELECT * FROM favourites_table WHERE id = :id)")
+    fun isRowIsExist(id: String): Flow<Boolean>
 }

@@ -1,4 +1,4 @@
-package com.tellit.minecrafttest.room
+package com.tellit.minecrafttest.data
 
 import androidx.room.TypeConverter
 import java.util.*

@@ -1,7 +1,6 @@
 package com.tellit.minecrafttest.ui.favourites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +50,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
 
     private fun setData() {
         viewModel.getFavorites.observe(viewLifecycleOwner) {
+            data.clear()
             for (i in it) {
                 if (i.status) {
                     data.add(i)

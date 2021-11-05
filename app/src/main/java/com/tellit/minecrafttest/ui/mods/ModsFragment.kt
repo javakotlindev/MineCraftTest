@@ -30,7 +30,6 @@ class ModsFragment : Fragment(R.layout.fragment_mods) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-
             adapter = ModsAdapter()
 
             initRecyclerView()
@@ -53,7 +52,6 @@ class ModsFragment : Fragment(R.layout.fragment_mods) {
     private fun adapterOnclick() {
         adapter.setOnItemClickListener { id, status ->
             viewModel.mainRepository.update(status, id)
-            adapter.notifyDataSetChanged()
         }
     }
 
